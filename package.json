@@ -1,7 +1,7 @@
 {
     "name": "07-rest-server",
     "version": "1.0.0",
-    "description": "",
+    "description": " ",
     "main": "index.js",
     "scripts": {
         "start": "node server/server.js",
