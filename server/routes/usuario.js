@@ -3,8 +3,9 @@ const app = express()
 const Usuario = require('../models/usuario')
 const bcrypt = require('bcrypt')
 const _ = require('underscore')
+const { verifyToken, verifyRole } = require('../middlewares/autenticacion')
 
-app.get('/usuario', function(req, res) {
+app.get('/usuario', verifyToken, function(req, res) {
 
     // Configuracion de paginacion
     let desde = req.query.desde || 0;
@@ -35,7 +36,7 @@ app.get('/usuario', function(req, res) {
         })
 })
 
-app.post('/usuario', function(req, res) {
+app.post('/usuario', [verifyToken, verifyRole], function(req, res) {
     let body = req.body;
 
     let usuario = new Usuario({
@@ -63,7 +64,7 @@ app.post('/usuario', function(req, res) {
     })
 })
 
-app.put('/usuario/:id', function(req, res) {
+app.put('/usuario/:id', [verifyToken, verifyRole], function(req, res) {
     let id = req.params.id;
     let body = _.pick(req.body, ['nombre', 'email', 'password', 'img', 'estado']);
 
@@ -87,7 +88,7 @@ app.put('/usuario/:id', function(req, res) {
     })
 })
 
-app.delete('/usuario/:id', function(req, res) { //Ya no se borran registros sino que se cambia el estado de la info
+app.delete('/usuario/:id', [verifyToken, verifyRole], function(req, res) { //Ya no se borran registros sino que se cambia el estado de la info
     let id = req.params.id;
 
     // Usuario.findByIdAndRemove(id, (err, data) => {

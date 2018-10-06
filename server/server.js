@@ -9,7 +9,8 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false })) // "use" son middlewares 
 app.use(bodyParser.json())
 
-app.use(require('./routes/usuario').app) //Esto para importar y usar dentro de el objeto app la logica que vienen en el require, aqui se encuentra la API REST del usuario
+// Configuracion global de las rutas
+app.use(require('./routes/index'))
 
 mongoose.connect(process.env.URLDB, (err, res) => {
     if (err) {
