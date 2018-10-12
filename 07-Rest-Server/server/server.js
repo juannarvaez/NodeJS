@@ -4,12 +4,18 @@ const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
 const bodyParser = require('body-parser')
+const path = require('path')
 
 //Para leer data que vienen del cliente en archivos tipo json
 app.use(bodyParser.urlencoded({ extended: false })) // "use" son middlewares 
 app.use(bodyParser.json())
 
-app.use(require('./routes/usuario').app) //Esto para importar y usar dentro de el objeto app la logica que vienen en el require, aqui se encuentra la API REST del usuario
+// Habilitar la aplicacion web para que sea publica
+app.use(express.static(path.resolve(__dirname, '../public')))
+
+// Configuracion global de las rutas
+app.use(require('./routes/index'))
+
 
 mongoose.connect(process.env.URLDB, (err, res) => {
     if (err) {
