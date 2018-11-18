@@ -8,18 +8,21 @@ const jwt = require('jsonwebtoken')
 let verifyToken = (req, res, next) => {
     let token = req.get('token'); //Para obtener la informacion que vienen en del header, porque es una peticion get
 
-    console.log(token);
+    console.log('token autenticacion: ', token);
 
     jwt.verify(token, process.env.SEED, (err, decoded) => {
         if (err) {
             return res.status(401).json({
                 ok: false,
-                err
+                err: {
+                    message: 'no pudo verificar',
+                    err
+                }
             })
         }
 
         req.usuario = decoded.usuario;
-        // Hay que llamar el NEXT paraq asi ejecutar el resto del codigo que va despues de ejecutarse este middleware
+        // Hay que llamar el NEXT para asi ejecutar el resto del codigo que va despues de ejecutarse este middleware
         // si se hace un res.json() aqui, el res.json() del next no se ejecuta.
         next();
     })
