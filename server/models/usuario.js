@@ -41,6 +41,7 @@ let usuarioSchema = new Schema({
     }
 });
 
+// Esto se hace para evitar que se muestre el password en las respuestas que da el la DB
 usuarioSchema.methods.toJSON = function() {
     let user = this;
     let userObject = user.toObject();

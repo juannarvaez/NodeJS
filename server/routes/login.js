@@ -44,6 +44,9 @@ app.post('/login', (req, res) => {
         }
 
         // Payload, DEFINICION DEL TOKEN
+        // jwt.sing({
+        //     informacion del token json,
+        // }, '<cualquier string - secret>', {expiresIn: expiracion en milisegundis})
         let token = jwt.sign({
             usuario: data
         }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN });
@@ -51,7 +54,7 @@ app.post('/login', (req, res) => {
         res.json({
             ok: true,
             user: data,
-            token
+            tokenRoutes: token
         })
     });
 })
@@ -116,7 +119,7 @@ app.post('/google', async(req, res) => {
                 return res.json({
                     ok: true,
                     usuario: usuarioDB,
-                    token
+                    tokenGoogle: token
                 })
             }
         } else {
